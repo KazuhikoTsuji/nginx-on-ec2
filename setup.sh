@@ -10,9 +10,23 @@ if [ -f /etc/os-release ]; then
   fi
 fi
 
-# Insert 'charset UTF-8;' into the http block of nginx.conf
+# Add charset UTF-8 to the http block
 sed -i '/http {/a \    charset UTF-8;' /etc/nginx/nginx.conf
 
-# Enable and start NGINX
+# Create a custom index.html with a specific <h1> tag
+cat > /usr/share/nginx/html/index.html <<EOF
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+    <h1>Hello from EC2!</h1>
+</body>
+</html>
+EOF
+
+# Enable and start nginx
 systemctl enable nginx
 systemctl start nginx
